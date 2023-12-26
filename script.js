@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Wait for the specified duration and then redirect to home.html
     setTimeout(function () {
-        window.location.href = 'antara-web/home/';
+        window.location.href = '/home/';
     }, splashDuration);
 
     // Add event listener for hover effect on the text
