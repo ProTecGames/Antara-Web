@@ -6,4 +6,14 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function () {
         window.location.href = 'home.html';
     }, splashDuration);
+
+    // Add event listener for hover effect on the text
+    const splashScreen = document.querySelector('.splash-screen p');
+    splashScreen.addEventListener('mouseenter', function () {
+        splashScreen.style.color = '#ff4500'; // Change text color on hover
+    });
+
+    splashScreen.addEventListener('mouseleave', function () {
+        splashScreen.style.color = '#333'; // Reset text color when not hovering
+    });
 });
