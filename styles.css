@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Pacifico', sans-serif;
     background-color: #f8f8f8;
     display: flex;
     align-items: center;
@@ -11,10 +11,21 @@ body {
 
 .splash-screen {
     text-align: center;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .splash-screen img {
-    width: 150px; /* Adjust the size as needed */
+    width: 150px;
 }
 
 .splash-screen p {
@@ -22,4 +33,9 @@ body {
     font-weight: bold;
     color: #333;
     margin-top: 10px;
+    transition: color 0.5s ease-in-out;
+}
+
+.splash-screen p:hover {
+    color: #ff4500; /* Change text color on hover */
 }
