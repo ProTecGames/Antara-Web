@@ -1,4 +1,4 @@
-// Add your JavaScript code here
+
 
 let currentSongIndex = null;
 let playlist = [];
