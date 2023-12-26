@@ -40,9 +40,13 @@ function fetchTopTracks() {
                 playSong(currentSongIndex);
             } else {
                 console.error('No top tracks found.');
+                alert('Error: No top tracks found.');
             }
         })
-        .catch(error => console.error('Error fetching top tracks from Last.fm:', error));
+        .catch(error => {
+            console.error('Error fetching top tracks from Last.fm:', error);
+            alert('Error fetching top tracks. Please try again.');
+        });
 }
 
 function playSong(index) {
@@ -76,6 +80,7 @@ function playSong(index) {
         sound.play();
     } else {
         console.error('Invalid index:', index);
+        alert('Error: Invalid index. Please try again.');
     }
 }
 
