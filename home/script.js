@@ -1,5 +1,8 @@
+// Add your JavaScript code here
+
 let currentSongIndex = null;
 let playlist = [];
+let sound = null;
 
 document.addEventListener('DOMContentLoaded', function () {
     // Fetch top tracks from Last.fm API when the page loads
