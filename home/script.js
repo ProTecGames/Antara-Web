@@ -14,7 +14,12 @@ function fetchTopTracks() {
     const lastfmEndpoint = `http://ws.audioscrobbler.com/2.0/?method=chart.getTopTracks&api_key=${apiKey}&format=json&limit=10`;
 
     fetch(lastfmEndpoint)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             const tracks = data.tracks.track;
 
@@ -48,7 +53,7 @@ function fetchTopTracks() {
         })
         .catch(error => {
             console.error('Error fetching top tracks from Last.fm:', error);
-            alert('Error fetching top tracks. Please try again.');
+            alert(`Error fetching top tracks: ${error.message}`);
         });
 }
 
