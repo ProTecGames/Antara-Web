@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             axios.get(`https://youtube-music-api3.p.rapidapi.com/top?country=${userCountry}`, {
                 headers: {
-                    'X-RapidAPI-Key': 'your api key',
+                    'X-RapidAPI-Key': '54fb139661mshb7ee757010901c9p177c1ajsn4a5b60261d0d',
                     'X-RapidAPI-Host': 'youtube-music-api3.p.rapidapi.com'
                 }
             })
