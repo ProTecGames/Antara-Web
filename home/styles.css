@@ -1,54 +1,100 @@
-/* Add your custom styles here */
+/* styles.css */
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
 }
 
-nav {
-    background-color: #1E40AF;
-    padding: 1rem;
+.advanced-toolbar {
+    background-color: #333;
     color: white;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-nav img {
-    width: 2rem;
-    height: 2rem;
+.advanced-toolbar .brand {
+    display: flex;
+    align-items: center;
 }
 
-main {
-    padding: 1rem;
+.advanced-toolbar img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
 }
 
-h2 {
-    font-size: 1.5rem;
+.advanced-toolbar span {
+    font-size: 1.5em;
     font-weight: bold;
-    margin-bottom: 1rem;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    cursor: pointer;
-    margin-bottom: 0.5rem;
-}
-
-button {
-    background-color: #4CAF50;
+.advanced-toolbar nav a {
     color: white;
-    padding: 0.5rem;
-    border: none;
-    cursor: pointer;
-    margin-right: 0.5rem;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 1.2em;
 }
 
-button:hover {
-    background-color: #45a049;
+.blur-toolbar {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    filter: blur(10px);
+}
+
+.blur-toolbar h1 {
+    margin: 0;
+}
+
+.song-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.song-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    width: 250px;
+    margin-bottom: 20px;
+}
+
+.song-item:hover {
+    transform: translateY(-5px);
+}
+
+.song-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.song-item p {
+    padding: 10px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .advanced-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .advanced-toolbar nav {
+        margin-top: 10px;
+    }
+
+    .song-item {
+        width: 100%;
+    }
 }
