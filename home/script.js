@@ -35,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error('YouTube Music API Error:', error); // Log the error for debugging
-                alert(`Error: ${error.message}`);
+                const errorMessage = `Error: ${error.message}\n\nServer Headers:\n${getHeadersAsString(response.headers)}`;
+                alert(errorMessage);
             });
         })
         .catch(error => {
@@ -58,5 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
         songItem.appendChild(p);
 
         return songItem;
+    }
+
+    function getHeadersAsString(headers) {
+        let headersString = '';
+        headers.forEach((value, name) => {
+            headersString += `${name}: ${value}\n`;
+        });
+        return headersString;
     }
 });
