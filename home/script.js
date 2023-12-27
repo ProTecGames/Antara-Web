@@ -23,12 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         songList.appendChild(songItem);
                     });
                 } else {
-                    console.error('Error: Unable to fetch song data');
-                    alert('Error: Unable to fetch song data');
+                    throw new Error('Unable to fetch song data');
                 }
             })
             .catch(error => {
-                console.error('YouTube Music API Error:', error);
+                console.error('Error:', error);
                 alert(`Error: ${error.message}`);
             });
         })
