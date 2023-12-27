@@ -1,30 +1,24 @@
 // script.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('https://ipinfo.io/json?token=7ccae9c8d8744e')
-        .then(response => response.json())
+    axios.get('https://ipinfo.io/json?token=7ccae9c8d8744e')
+        .then(response => response.data)
         .then(data => {
-            console.log('IPINFO API Response:', data); // Log the response for debugging
+            console.log('IPINFO API Response:', data);
             const userCountry = data.country;
-            fetch(`https://youtube-music-api3.p.rapidapi.com/top?country=${userCountry}`, {
-                method: 'GET',
+
+            axios.get(`https://youtube-music-api3.p.rapidapi.com/top?country=${userCountry}`, {
                 headers: {
                     'X-RapidAPI-Key': '54fb139661mshb7ee757010901c9p177c1ajsn4a5b60261d0d',
                     'X-RapidAPI-Host': 'youtube-music-api3.p.rapidapi.com'
                 }
             })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('YouTube Music API Response:', data); // Log the response for debugging
+                console.log('YouTube Music API Response:', response.data);
                 const songList = document.getElementById('songList');
-                
-                if (data.results && Array.isArray(data.results)) {
-                    data.results.slice(0, 10).forEach(song => {
+
+                if (response.data.results && Array.isArray(response.data.results)) {
+                    response.data.results.slice(0, 10).forEach(song => {
                         const songItem = createSongItem(song);
                         songList.appendChild(songItem);
                     });
@@ -34,13 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => {
-                console.error('YouTube Music API Error:', error); // Log the error for debugging
-                const errorMessage = `Error: ${error.message}\n\nServer Headers:\n${getHeadersAsString(response.headers)}`;
-                alert(errorMessage);
+                console.error('YouTube Music API Error:', error);
+                alert(`Error: ${error.message}`);
             });
         })
         .catch(error => {
-            console.error('IPINFO API Error:', error); // Log the error for debugging
+            console.error('IPINFO API Error:', error);
             alert(`Error: ${error.message}`);
         });
 
@@ -59,13 +52,5 @@ document.addEventListener('DOMContentLoaded', () => {
         songItem.appendChild(p);
 
         return songItem;
-    }
-
-    function getHeadersAsString(headers) {
-        let headersString = '';
-        headers.forEach((value, name) => {
-            headersString += `${name}: ${value}\n`;
-        });
-        return headersString;
     }
 });
