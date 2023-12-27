@@ -39,18 +39,6 @@ body {
     font-size: 1.2em;
 }
 
-.blur-toolbar {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    filter: blur(10px);
-}
-
-.blur-toolbar h1 {
-    margin: 0;
-}
-
 .song-list {
     display: flex;
     flex-wrap: wrap;
