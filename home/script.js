@@ -1,109 +1,62 @@
+// script.js
 
-
-let currentSongIndex = null;
-let playlist = [];
-let sound = null;
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Fetch top tracks from Last.fm API when the page loads
-    fetchTopTracks();
-});
-
-function fetchTopTracks() {
-    const apiKey = '2d6c0463ec93f5a33a616054bfa1cfa2';
-    const lastfmEndpoint = `http://ws.audioscrobbler.com/2.0/?method=chart.getTopTracks&api_key=${apiKey}&format=json&limit=10`;
-
-    fetch(lastfmEndpoint)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('https://ipinfo.io/json?token=7ccae9c8d8744e')
+        .then(response => response.json())
         .then(data => {
-            const tracks = data.tracks.track;
-
-            if (tracks && tracks.length > 0) {
-                // Populate the playlist with track details
-                playlist = tracks.map(track => ({
-                    name: track.name,
-                    artist: track.artist.name,
-                    url: track.url,
-                }));
-
-                // Set the initial current song index
-                currentSongIndex = 0;
-
-                // Populate the song list
-                const songListElement = document.getElementById('songList');
-
-                playlist.forEach((track, index) => {
-                    const li = document.createElement('li');
-                    li.textContent = `${track.name} by ${track.artist}`;
-                    li.onclick = () => playSong(index);
-                    songListElement.appendChild(li);
-                });
-
-                // Start playing the first song
-                playSong(currentSongIndex);
-            } else {
-                console.error('No top tracks found.');
-                alert('Error: No top tracks found.');
-            }
+            console.log('IPINFO API Response:', data); // Log the response for debugging
+            const userCountry = data.country;
+            fetch(`https://youtube-music-api3.p.rapidapi.com/top?country=${userCountry}`, {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': '54fb139661mshb7ee757010901c9p177c1ajsn4a5b60261d0d',
+                    'X-RapidAPI-Host': 'youtube-music-api3.p.rapidapi.com'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('YouTube Music API Response:', data); // Log the response for debugging
+                const songList = document.getElementById('songList');
+                
+                if (data.results && Array.isArray(data.results)) {
+                    data.results.slice(0, 10).forEach(song => {
+                        const songItem = createSongItem(song);
+                        songList.appendChild(songItem);
+                    });
+                } else {
+                    console.error('Error: Unable to fetch song data');
+                    alert('Error: Unable to fetch song data');
+                }
+            })
+            .catch(error => {
+                console.error('YouTube Music API Error:', error); // Log the error for debugging
+                alert(`Error: ${error.message}`);
+            });
         })
         .catch(error => {
-            console.error('Error fetching top tracks from Last.fm:', error);
-            alert(`Error fetching top tracks: ${error.message}`);
-        });
-}
-
-function playSong(index) {
-    if (index >= 0 && index < playlist.length) {
-        const { name, artist, url } = playlist[index];
-
-        if (sound) {
-            sound.unload();
-        }
-
-        sound = new Howl({
-            src: [url],
-            format: ['mp3'],
-            onplay: function () {
-                document.getElementById('currentSong').textContent = `Now Playing: ${name} by ${artist}`;
-                document.getElementById('playPauseBtn').textContent = 'Pause';
-            },
-            onpause: function () {
-                document.getElementById('playPauseBtn').textContent = 'Play';
-            },
-            onend: function () {
-                document.getElementById('currentSong').textContent = 'Now Playing: ';
-                document.getElementById('playPauseBtn').textContent = 'Play';
-
-                // Play the next song when the current one ends
-                playNext();
-            }
+            console.error('IPINFO API Error:', error); // Log the error for debugging
+            alert(`Error: ${error.message}`);
         });
 
-        currentSongIndex = index;
-        sound.play();
-    } else {
-        console.error('Invalid index:', index);
-        alert('Error: Invalid index. Please try again.');
+    function createSongItem(song) {
+        const songItem = document.createElement('div');
+        songItem.classList.add('song-item');
+
+        const img = document.createElement('img');
+        img.src = song.thumbnail;
+        img.alt = song.title;
+
+        const p = document.createElement('p');
+        p.textContent = `${song.title} - ${song.author}`;
+
+        songItem.appendChild(img);
+        songItem.appendChild(p);
+
+        return songItem;
     }
-}
-
-function togglePlayPause() {
-    if (sound) {
-        sound.playing() ? sound.pause() : sound.play();
-    }
-}
-
-function playNext() {
-    const nextIndex = (currentSongIndex + 1) % playlist.length;
-    playSong(nextIndex);
-}
-
-function playPrevious() {
-    const previousIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
-    playSong(previousIndex);
-}
+});
